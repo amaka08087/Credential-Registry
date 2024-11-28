@@ -106,7 +106,7 @@
     (let (
         (education-provider-profile (unwrap! (map-get? authorized-educational-institutions tx-sender) ERR-RECORD-NOT-FOUND))
         (credential-category-details (unwrap! (map-get? supported-credential-categories credential-type-identifier) ERR-UNSUPPORTED-CREDENTIAL-TYPE))
-        (current-block-height (get-block-height))
+        (current-block-height block-height)
         (expiration-block-height (+ current-block-height (get credential-validity-period credential-category-details)))
     )
         (asserts! (get education-provider-verification-status education-provider-profile) ERR-NOT-AUTHORIZED)
@@ -168,7 +168,7 @@
         {credential-uuid: credential-uuid, student-address: student-address}
     )
         credential-record (let (
-            (current-block-height (get-block-height))
+            (current-block-height block-height)
             (credential-expired (> current-block-height (get expiration-block-height credential-record)))
         )
             (if (get revocation-status credential-record)
